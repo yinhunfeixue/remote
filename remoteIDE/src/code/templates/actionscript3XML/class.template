@@ -1,0 +1,14 @@
+<{$superType} {$constructor}>
+	<!--描述-->
+	<des>
+		<author>{$author}</author>
+		<date>{$date}</date>
+	</des>
+	<imports>
+		{$imports}
+	</imports>
+	<!--变量-->
+	<children>
+		{$createVariables}
+	</children>
+</{$superType}>

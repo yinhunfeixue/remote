@@ -1,0 +1,10 @@
+{$name}=变量名称
+{$parentName}=父容器名称
+{$value}=变量值
+{$imports}=导入所有引用
+{$author}=作者
+{$date}=当前日期
+{$variables}=声明所有变量
+{$createVariables}=创建所有变量
+{$path}=路径，一般在导入引用时使用
+{$type}=类型，一般是类名

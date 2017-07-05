@@ -1,0 +1,29 @@
+package
+{
+	{$imports}
+	/**
+	 * 
+	 *
+	 * @author {$author}
+	 * @date {$date}
+	 * 
+	 */	
+	public class {$type} extends {$superType}
+	{
+		//变量声明
+		{$variables}
+		//构造函数
+		public function {$type}()
+		{
+			super();
+			{$constructor}
+		}
+		
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			
+			{$createVariables}
+		}
+	}
+}
