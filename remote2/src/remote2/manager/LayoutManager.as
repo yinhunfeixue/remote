@@ -2,6 +2,7 @@ package remote2.manager
 {
 	import flash.display.Stage;
 	import flash.events.Event;
+	import flash.utils.getTimer;
 	
 	import remote2.core.ILayoutElement;
 	import remote2.core.IValidateElement;
@@ -43,12 +44,17 @@ package remote2.manager
 		private function attachListeners():void
 		{
 			if(_stage)
+			{
+				trace("enterframe:" + getTimer());
+				_listenersAttached = true;
 				_stage.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
+			}
 		}
 		
 		protected function enterFrameHandler(event:Event):void
 		{
 			_stage.removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
+			_listenersAttached = false;
 			doPhasedInstantiation();
 		}
 		

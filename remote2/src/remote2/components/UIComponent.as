@@ -3,6 +3,7 @@ package remote2.components
 	import flash.display.DisplayObject;
 	import flash.display.Graphics;
 	import flash.events.Event;
+	import flash.utils.getQualifiedClassName;
 	
 	import remote2.core.IToolTipElement;
 	import remote2.core.IUIComponent;
@@ -17,6 +18,7 @@ package remote2.components
 	import remote2.events.ResizeEvent;
 	import remote2.geom.Size;
 	import remote2.manager.LayoutManager;
+	import remote2.utils.StringUtil2;
 	
 	use namespace remote_internal;
 	
@@ -116,7 +118,7 @@ package remote2.components
 			if(stage)
 				initialize();
 			else
-				addEventListener(Event.ADDED, addedHandler);
+				addEventListener(Event.ADDED_TO_STAGE, addedHandler);
 		}
 		
 		/**
@@ -129,7 +131,7 @@ package remote2.components
 		
 		protected function addedHandler(event:Event):void
 		{
-			removeEventListener(Event.ADDED, addedHandler);
+			removeEventListener(Event.ADDED_TO_STAGE, addedHandler);
 			initialize();
 		}
 		
@@ -154,10 +156,16 @@ package remote2.components
 			dispatchEventWithCheck(new RemoteEvent(RemoteEvent.INITIALIZED));
 		}
 		
-		protected function createChildren():void
+		private function createToolTipControl():void
 		{
 			_toolTipControl = new ToolTipControl();
 			_toolTipControl.target = this;
+		}
+		
+		protected function createChildren():void
+		{
+			if(!StringUtil2.isEmpty(_toolTip))
+				createToolTipControl();
 		}
 		
 		/**
@@ -283,6 +291,7 @@ package remote2.components
 		 */		
 		remote_internal function setActualSize(newWidth:Number, newHeight:Number):void
 		{
+			trace("setActualSize" + getQualifiedClassName(this));
 			var changed:Boolean = false;
 			var oldWidth:Number = width, oldHeight:Number = height;
 			if(_width != newWidth)
@@ -441,6 +450,7 @@ package remote2.components
 				
 				if(oldWidth != width || oldHeight != height)									//若尺寸变化，则更新子对象，同时通知父对象验证尺寸
 				{
+					trace("validateSize" + getQualifiedClassName(this));
 					dispatchEventWithCheck(new ResizeEvent(ResizeEvent.RESIZE, oldWidth, oldHeight));
 					invalidateDisplayList();
 					invalidateParentSizeAndDisplayList();
@@ -458,6 +468,9 @@ package remote2.components
 			if(_toolTipChanged)
 			{
 				_toolTipChanged = false;
+				
+				if(_toolTipControl == null)
+					createChildren();
 				_toolTipControl.toolTip = _toolTip;
 			}
 		}
@@ -665,14 +678,17 @@ package remote2.components
 		 */
 		public function get toolTip():String
 		{
-			return _toolTipControl.toolTip;
+			return _toolTipControl != null?_toolTipControl.toolTip:null;
 		}
 		
 		public function set toolTip(value:String):void
 		{
-			_toolTip = value;
-			_toolTipChanged = true;
-			invalidateProperties();
+			if(_toolTip != value)
+			{
+				_toolTip = value;
+				_toolTipChanged = true;
+				invalidateProperties();
+			}
 		}
 		
 		/**
@@ -746,7 +762,7 @@ package remote2.components
 			_maxMeasureHeight = value;
 			invalidateSize();
 		}
-
+		
 		/**
 		 * 最小测量宽度 
 		 */
@@ -754,7 +770,7 @@ package remote2.components
 		{
 			return _minMeasureWidth;
 		}
-
+		
 		/**
 		 * @private
 		 */
@@ -764,7 +780,7 @@ package remote2.components
 				value = 0;
 			_minMeasureWidth = value;
 		}
-
+		
 		/**
 		 * 最小测量高度 
 		 */
@@ -772,7 +788,7 @@ package remote2.components
 		{
 			return _minMeasureHeight;
 		}
-
+		
 		/**
 		 * @private
 		 */

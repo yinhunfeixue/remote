@@ -36,7 +36,17 @@ package remote2.components
 		{
 			if(inited && _layout)
 			{
+				var oldMWidth:Number = layoutWidth;
+				var oldMHeight:Number = layoutHeight;
 				_layout.measure();
+				if(!isNaN(oldMWidth))
+					measuredWidth = oldMWidth;
+				if(!isNaN(oldMHeight))
+					measuredHeight = oldMHeight;
+			}
+			else
+			{
+				super.measure();
 			}
 		}
 		

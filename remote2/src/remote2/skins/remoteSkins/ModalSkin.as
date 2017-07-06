@@ -21,7 +21,7 @@ package remote2.skins.remoteSkins
 			var center:Point = new Point(unscaleWidth / 2, unscaleHeight / 2);
 			var m:Matrix = new Matrix();
 			m.createGradientBox(r * 2, r * 2, 0, center.x - r, center.y - r);
-			g.beginGradientFill(GradientType.RADIAL, [0, 0, 0], [0.8, 0.6, 0.2], [0, 150,255], m);
+			g.beginGradientFill(GradientType.RADIAL, [0xffffff, 0xffffff, 0xffffff], [0.8, 0.8, 0.7], [0, 150,255], m);
 			g.drawCircle(center.x, center.y, r);
 			g.endFill();
 		}

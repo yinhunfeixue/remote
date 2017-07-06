@@ -28,6 +28,7 @@ package remote2.components.supports
 		private var _includeInLayout:Boolean;
 		
 		private var _layoutWidth:Number;
+		
 		private var _layoutHeight:Number;
 		
 		/**
@@ -207,6 +208,12 @@ package remote2.components.supports
 				invalidateParentSizeAndDisplayList();
 			}
 		}
+		
+		override protected function measure():void
+		{
+			measuredWidth = _layoutWidth;
+			measuredHeight = _layoutHeight;
+		}
 		/**
 		 * @inheritDoc
 		 */	
@@ -217,7 +224,12 @@ package remote2.components.supports
 			if(isNaN(height))
 				height = getExplicitOrMeasuredHeight();
 			if(this.width != width || this.height != height)
-				setActualSize(width, height);
+			{
+				_layoutWidth = width;
+				_layoutHeight = height;
+				invalidateSize();
+			//	validateSize()
+			}
 		}
 		/**
 		 * @inheritDoc
@@ -227,6 +239,23 @@ package remote2.components.supports
 			if(includeInLayout)
 				super.invalidateParentSizeAndDisplayList();
 		}
+
+		/**
+		 * 根据top,left被父窗口设置的布局宽度 
+		 */
+		public function get layoutWidth():Number
+		{
+			return _layoutWidth;
+		}
+
+		/**
+		 * 根据top bottom 被父窗口设置的布局宽度 
+		 */
+		public function get layoutHeight():Number
+		{
+			return _layoutHeight;
+		}
+
 		
 	}
 }

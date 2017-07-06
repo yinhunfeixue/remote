@@ -178,6 +178,8 @@ package remote2.components
 			super();
 			minMeasureHeight = 100;
 			minMeasureWidth = 30;
+			closeControlEnable = false;
+			sizeControlEnable = false;
 			addEventListener(CloseEvent.CLOSE, this_closeHandler);
 		}
 		
