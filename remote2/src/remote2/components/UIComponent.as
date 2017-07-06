@@ -291,7 +291,6 @@ package remote2.components
 		 */		
 		remote_internal function setActualSize(newWidth:Number, newHeight:Number):void
 		{
-			trace("setActualSize" + getQualifiedClassName(this));
 			var changed:Boolean = false;
 			var oldWidth:Number = width, oldHeight:Number = height;
 			if(_width != newWidth)
@@ -450,7 +449,6 @@ package remote2.components
 				
 				if(oldWidth != width || oldHeight != height)									//若尺寸变化，则更新子对象，同时通知父对象验证尺寸
 				{
-					trace("validateSize" + getQualifiedClassName(this));
 					dispatchEventWithCheck(new ResizeEvent(ResizeEvent.RESIZE, oldWidth, oldHeight));
 					invalidateDisplayList();
 					invalidateParentSizeAndDisplayList();
